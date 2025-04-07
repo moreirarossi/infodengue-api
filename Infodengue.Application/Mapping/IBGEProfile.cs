@@ -8,8 +8,9 @@ namespace Infodengue.Application.Mapping
     {
         public IBGEProfile()
         {
-            CreateMap<IBGEResponse, RelatorioResponse>().ReverseMap();
-            CreateMap<Relatorio, RelatorioResponse>().ReverseMap();
+            CreateMap<IBGEResponse, CreateIBGEResponse>().ReverseMap();
+            CreateMap<IBGEDados, IBGEResponse>().ReverseMap();
+            CreateMap<Relatorio, CreateIBGEResponse>().ReverseMap();
             CreateMap<Solicitante, SolicitanteResponse>().ReverseMap();
         }
     }

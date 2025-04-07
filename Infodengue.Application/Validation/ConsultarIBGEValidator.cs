@@ -3,7 +3,7 @@ using Infodengue.Application.Command;
 
 namespace Infodengue.Application.Validations
 {
-    public class ConsultarIBGEValidator : AbstractValidator<GetIBGECommand>
+    public class ConsultarIBGEValidator : AbstractValidator<CreateIBGECommand>
     {
         public ConsultarIBGEValidator()
         {
