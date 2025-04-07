@@ -169,5 +169,34 @@ namespace Infodengue.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+    
+         /// <summary>
+        /// Listar casos por código IBGE
+        /// </summary>
+        /// <response code="200">Retorna listagem</response>
+        /// <response code="400">Dados da requisição inválidos</response>
+        /// <response code="404">Nenhum relatório encontrado</response>
+        /// <response code="500">Erro interno</response>
+        [HttpGet("relatorio-dados-rj-sp")]
+        [ProducesResponseType(typeof(IEnumerable<GetIBGEDadosQuery>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetAllRioSaoPaulo([FromQuery] GetIBGEDadosQuery request)
+        {
+            try
+            {
+                var relatorio = await _mediator.Send(request);
+                return Ok(relatorio);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound($"Relatório não encontrado.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }
