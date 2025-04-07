@@ -124,7 +124,7 @@ namespace Infodengue.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetPorArboviroseAsync([FromQuery] GetCasosPorMunicipioQuery request)
+        public async Task<IActionResult> GetPorMunicipioAsync([FromQuery] GetCasosPorMunicipioQuery request)
         {
             try
             {
@@ -153,7 +153,7 @@ namespace Infodengue.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetPorArboviroseAsync([FromQuery] GetCasosPorCodigoIBGEQuery request)
+        public async Task<IActionResult> GetPorCodigoIBGEAsync([FromQuery] GetCasosPorCodigoIBGEQuery request)
         {
             try
             {

@@ -2,5 +2,5 @@
 
 public class GetCasosPorMunicipioQuery : IRequest<Result<List<CasosPorMunicipioResponse>>>
 {
-    public string? Municipio { get; set; }
+    public string CPF { get; set; }
 }

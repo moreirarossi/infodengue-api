@@ -13,22 +13,25 @@ public class GetCasosPorMunicipioQueryHandler : IRequestHandler<GetCasosPorMunic
 
     public async Task<Result<List<CasosPorMunicipioResponse>>> Handle(GetCasosPorMunicipioQuery request, CancellationToken cancellationToken)
     {
-        var resultado = await _context.Relatorios
-            .AsNoTracking()
-            .Where(r => (!String.IsNullOrEmpty(request.Municipio) && r.Municipio == request.Municipio)
-                        || (String.IsNullOrEmpty(request.Municipio) && r.Municipio != null)
-                        )
-            .GroupBy(r => r.Municipio)
-            .Select(g => new CasosPorMunicipioResponse
-            {
-                Municipio = g.Key!,
-                TotalCasos = g.Sum(x => x.TotalCasos ?? 0)
-            })
-            .ToListAsync(cancellationToken);
+        var codigosIBGE = new List<string> { "3550308", "3304557" };
 
-        if (resultado == null || resultado.Count == 0)
-            return Result<List<CasosPorMunicipioResponse>>.Fail("Nenhum dado encontrado.");
+        var casosPorMunicipio = await (
+            from dr in _context.IBGEDadosRelatorios
+            join r in _context.Relatorios on dr.RelatorioId equals r.Id
+            join s in _context.Solicitantes on r.SolicitanteId equals s.Id
+            join ibge in _context.IBGEDados on dr.IBGEDadosId equals ibge.Id
+            where s.CPF == request.CPF && codigosIBGE.Contains(r.CodigoIBGE!)
+            select new { r.Municipio, ibge.Id, ibge.Casos }
+        )
+        .Distinct()
+        .GroupBy(x => x.Municipio)
+        .Select(g => new CasosPorMunicipioResponse
+        {
+            Municipio = g.Key!,
+            TotalCasos = g.Sum(x => x.Casos ?? 0)
+        })
+        .ToListAsync();
 
-        return Result<List<CasosPorMunicipioResponse>>.Ok(resultado);
+        return Result<List<CasosPorMunicipioResponse>>.Ok(casosPorMunicipio);
     }
 }
