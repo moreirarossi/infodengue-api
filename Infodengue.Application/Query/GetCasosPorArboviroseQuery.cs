@@ -2,5 +2,5 @@
 
 public class GetTotalCasosPorArboviroseQuery : IRequest<Result<List<CasosPorArboviroseResponse>>>
 {
-    public string? Arbovirose { get; set; }
+    public string CPF { get; set; }
 }
